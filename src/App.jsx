@@ -1,35 +1,40 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  Route,
+  RouterProvider,
+} from "react-router-dom"; // Import required components and functions
 
-function App() {
-  const [count, setCount] = useState(0)
+import Layout from "./components/Layout";
+import Home from "./components/Home";
+import AddNote from "./components/AddNote";
+import AppContextProvider from "./context/AppContextProvider";
+//import About from './components/About';
 
+// Our App component now simply returns the Router we created
+const App = () => {
+  /*
+We create our router by nesting Route components in a tree-like structure
+1. In this structure, the base path "/" which is the root of our app, will match and render MainLayout
+2. The first route is marked as "index" which means it's the base route for that segment of the tree
+3. Any change on the navigation bar, i.e. the history in the browser, will cause the router to pick a matching
+route
+4. If no matching route is found, an error is thrown. We can handle this error.
+*/
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <Route path="/" element={<Layout />}>
+        <Route index element={<Home />} />
+        <Route path="addnote" element={<AddNote />} />
+        {/*<Route path="contact" element={<Contact />} /> */}
+      </Route>
+    )
+  );
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <AppContextProvider>
+      <RouterProvider router={router} />
+    </AppContextProvider>
+  );
+};
 
-export default App
+export default App;
