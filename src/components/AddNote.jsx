@@ -5,14 +5,20 @@ const AddNote = () => {
 
   const handelChange = (e) => {
     setNote((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  console.log(e.target.value)};
+    console.log(e.target.value);
+  };
+
+  const handelSubmit = (e) => {
+    e.preventDefault();
+  };
+
   return (
     <>
       <div className="font-medium p-24 flex justify-center ">
         <div>
           <h2 className="text-2xl">Add a Note</h2>
           <br></br>
-          <form>
+          <form onSubmit={handelSubmit}>
             <label className="form-control w-full max-w-xs">
               <span className="label-text">Title: </span>
               <input
@@ -34,7 +40,9 @@ const AddNote = () => {
               ></textarea>
             </label>
             <br></br>
-            <button className="btn btn-accent">Save</button>
+            <button type="submit" className="btn btn-accent">
+              Save
+            </button>
           </form>
         </div>
       </div>

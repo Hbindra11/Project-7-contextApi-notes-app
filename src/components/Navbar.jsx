@@ -16,12 +16,9 @@ const Navbar = () => {
           <Link to="/addnote" className="text-gray-300 hover:text-white">
             +Note
           </Link>
-          {/*} <Link
-            to="/anewcategory"
-            className="text-gray-300 hover:text-white"
-          >
-            Add A New Category
-          </Link> */}
+          <Link to="/categories" className="text-gray-300 hover:text-white">
+            Categories
+          </Link>
         </div>
       </div>
     </nav>
