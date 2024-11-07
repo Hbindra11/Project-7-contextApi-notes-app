@@ -13,13 +13,22 @@ export function fetchAllStoredNotes() {
   return JSON.parse(localStorage.getItem("notes")) || [];
 }
 
-export function deleteANote(noteContent) {
+export function deleteANote(noteTitle, noteContent) {
   const allNotes = JSON.parse(localStorage.getItem("notes")) || [];
   //loop thru all notes till contents match to filter out
   const filtered = allNotes.filter(
-    (toDelete) => toDelete.content !== noteContent
+    (toDelete) =>
+      toDelete.content !== noteContent && toDelete.title !== noteTitle
   );
   localStorage.setItem("notes", JSON.stringify(filtered));
+}
 
-  //return console.log(filtered);
+export function editNote(noteTitle, noteContent) {
+  const allNotes = JSON.parse(localStorage.getItem("notes")) || [];
+  //loop thru all notes till contents match to filter out
+  const filtered = allNotes.filter(
+    (toEdit) => toEdit.content === noteContent && toEdit.title === noteTitle
+  );
+  return (//console.log(filtered);
+filtered )
 }

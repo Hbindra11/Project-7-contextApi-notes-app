@@ -4,7 +4,7 @@ const Categories = () => {
   const { categories, setCategories } = useAppContext();
 
   const handelChange = (e) => {
-    setCategories(() => e.target.value );
+    setCategories(() => e.target.value);
     //console.log(e.target.value);
   };
   const handelSubmit = () => {
@@ -13,7 +13,7 @@ const Categories = () => {
   };
   return (
     <>
-      <div className="font-medium p-24 flex justify-center ">
+      <div className="font-medium p-56 flex justify-center ">
         <div>
           <h2 className="text-2xl">Add Categories</h2>
           <br></br>
@@ -27,10 +27,11 @@ const Categories = () => {
                 onChange={handelChange}
                 required
               />
-              <button type="submit" className="btn btn-active btn-accent">
-                Save
-              </button>
             </label>
+            <br></br>
+            <button type="submit" className="btn btn-active btn-accent">
+              Save
+            </button>
             {/* <ul> need to create a component to render a list of categories here!
 
             </ul> */}

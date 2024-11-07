@@ -1,22 +1,24 @@
 import { useAppContext } from "../context/AppContext";
 import { storeNotes } from "../modules/storage";
+import { useNavigate } from "react-router-dom";
 const AddNote = () => {
   const { note, setNote } = useAppContext();
+  const navigate = useNavigate();
 
   const handelChange = (e) => {
-    setNote((prev) => ({...prev, [e.target.name]: e.target.value} ));
-   
+    setNote((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const handelSubmit = () => {
     //e.preventDefault();
     storeNotes(note);
-     
+    setNote([]);
+    navigate("/");
   };
 
   return (
     <>
-      <div className="font-medium p-24 flex justify-center ">
+      <div className="font-medium p-36 flex justify-center ">
         <div>
           <h2 className="text-2xl">Add a Note</h2>
           <br></br>
