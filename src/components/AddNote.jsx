@@ -1,15 +1,17 @@
 import { useAppContext } from "../context/AppContext";
-
+import { storeNotes } from "../modules/storage";
 const AddNote = () => {
-  const { setNote } = useAppContext();
+  const { note, setNote } = useAppContext();
 
   const handelChange = (e) => {
-    setNote((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-    console.log(e.target.value);
+    setNote((prev) => ({...prev, [e.target.name]: e.target.value} ));
+   
   };
 
-  const handelSubmit = (e) => {
-    e.preventDefault();
+  const handelSubmit = () => {
+    //e.preventDefault();
+    storeNotes(note);
+     
   };
 
   return (
@@ -27,6 +29,7 @@ const AddNote = () => {
                 className="input input-bordered input-accent w-full max-w-xs "
                 name="title"
                 onChange={handelChange}
+                required
               ></input>
             </label>
             <br></br>
@@ -37,6 +40,7 @@ const AddNote = () => {
                 className="textarea textarea-accent"
                 name="content"
                 onChange={handelChange}
+                required
               ></textarea>
             </label>
             <br></br>

@@ -1,12 +1,15 @@
 import { useAppContext } from "../context/AppContext";
+import { storeCategories } from "../modules/storage";
 const Categories = () => {
-  const { setCategories } = useAppContext();
+  const { categories, setCategories } = useAppContext();
+
   const handelChange = (e) => {
-    setCategories((prev) => [e.target.value, ...prev]);
-    console.log(e.target.value);
+    setCategories(() => e.target.value );
+    //console.log(e.target.value);
   };
-  const handelSubmit = (e) => {
-    e.preventDefault();
+  const handelSubmit = () => {
+    //e.preventDefault();
+    storeCategories(categories);
   };
   return (
     <>
@@ -14,7 +17,7 @@ const Categories = () => {
         <div>
           <h2 className="text-2xl">Add Categories</h2>
           <br></br>
-          <form  onSubmit={handelSubmit}>
+          <form onSubmit={handelSubmit}>
             <label className="form-control">
               <input
                 type="text"
@@ -22,16 +25,13 @@ const Categories = () => {
                 className="input input-bordered input-accent w-full max-w-xs "
                 name="category"
                 onChange={handelChange}
-              />{" "}
-              <button
-               
-                type="submit"
-                className="btn btn-active btn-accent"
-              >
+                required
+              />
+              <button type="submit" className="btn btn-active btn-accent">
                 Save
               </button>
             </label>
-            {/* <ul>
+            {/* <ul> need to create a component to render a list of categories here!
 
             </ul> */}
           </form>
