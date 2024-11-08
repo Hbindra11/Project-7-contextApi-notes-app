@@ -9,7 +9,7 @@ const ShowCategories = () => {
   return (
     <>
       <div className="ml-32">
-        <h2 className="text-slate-50 font-semibold">Categories</h2>
+        <h2 className="text-slate-50 font-semibold">Categories: </h2>
         
         <div className=" card  bg-slate-50 p-5">
           <ul>

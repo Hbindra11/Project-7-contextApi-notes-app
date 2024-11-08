@@ -16,7 +16,7 @@ const AddCategory = () => {
     <>
       <div className="font-medium p-56 flex  justify-center bg-stone-900">
         <div>
-          <h2 className="text-2xl text-slate-50">Add A Category</h2>
+          <h2 className="text-2xl text-slate-50">Add A Category:</h2>
           <br></br>
           <form onSubmit={handelSubmit}>
             <label className="form-control">

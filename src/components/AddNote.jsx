@@ -1,17 +1,18 @@
 import { useAppContext } from "../context/AppContext";
 import { storeNotes } from "../modules/storage";
 import { useNavigate } from "react-router-dom";
+import SelectCategories from "./SelectCategories";
 
 const AddNote = () => {
   const { note, setNote } = useAppContext();
   const navigate = useNavigate();
 
   const handelChange = (e) => {
-    setNote((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    setNote((prev) => ({ ...prev, [e.target.name]: e.target.value,"categories": []}));
   };
 
-  const handelSubmit = () => {
-    //e.preventDefault();
+  const handelSubmit = (e) => {
+    e.preventDefault();
     storeNotes(note);
     setNote([]);
     navigate("/");
@@ -20,8 +21,8 @@ const AddNote = () => {
   return (
     <>
       <div className="font-medium  p-36 flex justify-center  bg-stone-900 ">
-        <div>
-          <h2 className="text-2xl text-slate-50">Add a Note</h2>
+        <div className="mr-24">
+          <h2 className="text-2xl text-slate-50">Add a Note:</h2>
           <br></br>
           <form onSubmit={handelSubmit}>
             <label className="form-control w-full max-w-xs  ">
@@ -52,9 +53,8 @@ const AddNote = () => {
             </button>
           </form>
         </div>
-
+        <SelectCategories />
       </div>
-
     </>
   );
 };

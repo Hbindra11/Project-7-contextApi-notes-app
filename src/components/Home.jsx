@@ -13,7 +13,7 @@ const Home = () => {
   const { note, setNote, editNote, setEditNote } = useAppContext();
 
   function handelClick(editNoteTitle, editNoteContent) {
-    setNote({ title: editNoteTitle, content: editNoteContent });
+    setNote({ title: editNoteTitle, content: editNoteContent, categories:[] });
     document.getElementById("my_modal_5").showModal();
   }
 
@@ -22,7 +22,7 @@ const Home = () => {
     //old note may be first deleted in storage thur the deleteANote function
     //the new state holding the new note data even if only the title or content was changed should be stored
     //in localstorage
-    setEditNote((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    setEditNote((prev) => ({ ...prev, [e.target.name]: e.target.value,"categories":[] }));
   }
 
   function handleSubmit() {
