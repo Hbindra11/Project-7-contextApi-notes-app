@@ -8,7 +8,7 @@ import {
 import Layout from "./components/Layout";
 import Home from "./components/Home";
 import AddNote from "./components/AddNote";
-import Categories from "./components/categories";
+import AddCategory from "./components/AddCategory";
 import AppContextProvider from "./context/AppContextProvider";
 //import About from './components/About';
 
@@ -27,7 +27,7 @@ route
       <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
         <Route path="addnote" element={<AddNote />} />
-        <Route path="categories" element={<Categories />} /> 
+        <Route path="categories" element={<AddCategory />} /> 
       </Route>
     )
   );

@@ -1,10 +1,11 @@
 import { useAppContext } from "../context/AppContext";
 import { storeCategories } from "../modules/storage";
-const Categories = () => {
+import ShowCategories from "./ShowCategories";
+const AddCategory = () => {
   const { categories, setCategories } = useAppContext();
 
   const handelChange = (e) => {
-    setCategories(() => e.target.value);
+    setCategories(() => ({[e.target.name]:e.target.value,"isChecked":false}));
     //console.log(e.target.value);
   };
   const handelSubmit = () => {
@@ -13,9 +14,9 @@ const Categories = () => {
   };
   return (
     <>
-      <div className="font-medium p-56 flex justify-center ">
+      <div className="font-medium p-56 flex  justify-center bg-stone-900">
         <div>
-          <h2 className="text-2xl">Add Categories</h2>
+          <h2 className="text-2xl text-slate-50">Add A Category</h2>
           <br></br>
           <form onSubmit={handelSubmit}>
             <label className="form-control">
@@ -37,9 +38,10 @@ const Categories = () => {
             </ul> */}
           </form>
         </div>
+        <ShowCategories />
       </div>
     </>
   );
 };
 
-export default Categories;
+export default AddCategory;

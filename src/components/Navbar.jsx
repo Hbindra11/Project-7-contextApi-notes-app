@@ -17,7 +17,7 @@ const Navbar = () => {
             +Note
           </Link>
           <Link to="/categories" className="text-gray-300 hover:text-white">
-            Categories
+            +Category
           </Link>
         </div>
       </div>

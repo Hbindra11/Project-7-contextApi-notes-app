@@ -1,6 +1,7 @@
 import { useAppContext } from "../context/AppContext";
 import { storeNotes } from "../modules/storage";
 import { useNavigate } from "react-router-dom";
+
 const AddNote = () => {
   const { note, setNote } = useAppContext();
   const navigate = useNavigate();
@@ -18,17 +19,17 @@ const AddNote = () => {
 
   return (
     <>
-      <div className="font-medium p-36 flex justify-center ">
+      <div className="font-medium  p-36 flex justify-center  bg-stone-900 ">
         <div>
-          <h2 className="text-2xl">Add a Note</h2>
+          <h2 className="text-2xl text-slate-50">Add a Note</h2>
           <br></br>
           <form onSubmit={handelSubmit}>
-            <label className="form-control w-full max-w-xs">
-              <span className="label-text">Title: </span>
+            <label className="form-control w-full max-w-xs  ">
+              <span className="label-text text-slate-50">Title: </span>
               <input
                 type="text"
                 placeholder="Type here"
-                className="input input-bordered input-accent w-full max-w-xs "
+                className="input input-bordered input-accent w-full max-w-md "
                 name="title"
                 onChange={handelChange}
                 required
@@ -36,7 +37,7 @@ const AddNote = () => {
             </label>
             <br></br>
             <label className="form-control w-full max-w-xs">
-              <span className="label-text">Note: </span>
+              <span className="label-text text-slate-50">Note: </span>
               <textarea
                 placeholder="Type here"
                 className="textarea textarea-accent"
@@ -51,7 +52,9 @@ const AddNote = () => {
             </button>
           </form>
         </div>
+
       </div>
+
     </>
   );
 };

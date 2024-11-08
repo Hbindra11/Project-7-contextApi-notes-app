@@ -5,6 +5,7 @@ import {
 } from "../modules/storage";
 import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../context/AppContext";
+import Hero from "./Hero";
 
 const Home = () => {
   const allNotes = fetchAllStoredNotes();
@@ -27,13 +28,15 @@ const Home = () => {
   function handleSubmit() {
     deleteANote(note.title, note.content);
     editStoredNote(editNote);
-    navigate("/")
+    navigate("/");
   }
 
   return (
     <>
       {
-        <div className="flex flex-wrap justify-center p-32">
+        <div className="flex flex-wrap justify-center bg-stone-950 ">
+            <Hero />
+            
           {allNotes.map((aNote) => (
             <div
               className="card bg-base-100 w-96 shadow-xl m-2 p-10 "
