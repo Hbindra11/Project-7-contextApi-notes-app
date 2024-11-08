@@ -28,6 +28,13 @@ export function deleteANote(noteTitle, noteContent) {
   localStorage.setItem("notes", JSON.stringify(filtered));
 }
 
+export function deleteACategory(aCategory){
+  const allCategories = JSON.parse(localStorage.getItem("categories")) || [];
+  const filteredList = allCategories.filter((toDelete) =>
+    toDelete.category !== aCategory);
+  localStorage.setItem("categories",JSON.stringify(filteredList))
+}
+
 export function editStoredNote(editedNote) {
   const allNotes = JSON.parse(localStorage.getItem("notes")) || [];
   //loop thru all notes till contents match to filter out

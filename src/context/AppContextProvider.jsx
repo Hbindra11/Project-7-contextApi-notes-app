@@ -6,9 +6,6 @@ function AppContextProvider({ children }) {
   const [editNote, setEditNote] = useState([]);
   const [categories, setCategories] = useState([]);
 
-  // const someCategories = ["to do", "school"];
-  // useEffect(() => setCategories(someCategories));
-
   return (
     <AppContext.Provider
       value={{

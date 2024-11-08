@@ -1,26 +1,27 @@
-//import { useAppContext } from "../context/AppContext";
 import { fetchCategories } from "../modules/storage";
+import { deleteACategory } from "../modules/storage";
+import { useNavigate } from "react-router-dom";
 
 const ShowCategories = () => {
-  //const { categories } = useAppContext();
   const AllCategories = fetchCategories();
+  const navigate = useNavigate();
 
-  // console.log(AllCategories);
   return (
     <>
       <div className="ml-32">
         <h2 className="text-slate-50 font-semibold">Categories: </h2>
-        
+
         <div className=" card  bg-slate-50 p-5">
           <ul>
             {AllCategories.map((aCategory) => (
               <li key={crypto.randomUUID()} className="flex justify-between">
-                <span >{aCategory.category}</span>
+                <span>{aCategory.category}</span>
                 <button
                   className="btn btn-square btn-sm"
                   onClick={() => {
-                    //deleteANote(aNote.title, aNote.content);
-                    //navigate("/");
+                    //console.log(aCategory.category);
+                    deleteACategory(aCategory.category);
+                    navigate("/categories");
                   }}
                 >
                   <svg
