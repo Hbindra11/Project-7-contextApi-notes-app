@@ -1,26 +1,39 @@
-import { fetchAllStoredNotes, deleteANote, editNote } from "../modules/storage";
+import {
+  fetchAllStoredNotes,
+  deleteANote,
+  editStoredNote,
+} from "../modules/storage";
 import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../context/AppContext";
 
 const Home = () => {
   const allNotes = fetchAllStoredNotes();
   const navigate = useNavigate();
-  const { note, setNote } = useAppContext();
+  const { note, setNote, editNote, setEditNote } = useAppContext();
 
   function handelClick(editNoteTitle, editNoteContent) {
     setNote({ title: editNoteTitle, content: editNoteContent });
     document.getElementById("my_modal_5").showModal();
   }
 
-  function handelChange(editNote) {
-    console.log(editNote.title);
-    console.log(editNote.content);
+  function handelChange(e) {
+    //need to use another state for handling the new values.
+    //old note may be first deleted in storage thur the deleteANote function
+    //the new state holding the new note data even if only the title or content was changed should be stored
+    //in localstorage
+    setEditNote((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  }
+
+  function handleSubmit() {
+    deleteANote(note.title, note.content);
+    editStoredNote(editNote);
+    navigate("/")
   }
 
   return (
     <>
       {
-        <div className="flex flex-wrap justify-center p-48">
+        <div className="flex flex-wrap justify-center p-32">
           {allNotes.map((aNote) => (
             <div
               className="card bg-base-100 w-96 shadow-xl m-2 p-10 "
@@ -79,17 +92,17 @@ const Home = () => {
 
               <div className="card-body">
                 <h2></h2>
-                <form method="dialog">
+                <form method="dialog" onSubmit={handleSubmit}>
                   {/* if there is a button in form, it will close the modal */}
                   <label className="form-control w-full max-w-xs">
                     <span className="label-text">Title: </span>
                     <input
                       type="text"
                       className="input input-bordered input-accent w-full max-w-xs "
-                      //placeholder={note.title}
                       placeholder={note.title}
                       name="title"
-                      onChange={handelChange(note)}
+                      onChange={handelChange}
+                      required
                     ></input>
                   </label>
                   <br></br>
@@ -98,14 +111,19 @@ const Home = () => {
                     <textarea
                       type="text"
                       className="textarea textarea-accent"
-                      //placeholder={note.content}
                       placeholder={note.content}
                       name="content"
-                      onChange={handelChange(note)}
+                      onChange={handelChange}
+                      required
                     ></textarea>
                   </label>
                   <br></br>
-                  <button className="btn">Close</button>
+                  <button type="submit" className="mr-24 btn btn-accent mt-5">
+                    Save
+                  </button>
+                </form>
+                <form>
+                  <button className="btn ml-40">Close</button>
                 </form>
               </div>
             </div>

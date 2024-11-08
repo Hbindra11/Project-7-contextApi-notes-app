@@ -23,12 +23,11 @@ export function deleteANote(noteTitle, noteContent) {
   localStorage.setItem("notes", JSON.stringify(filtered));
 }
 
-export function editNote(noteTitle, noteContent) {
+export function editStoredNote(editedNote) {
   const allNotes = JSON.parse(localStorage.getItem("notes")) || [];
   //loop thru all notes till contents match to filter out
-  const filtered = allNotes.filter(
-    (toEdit) => toEdit.content === noteContent && toEdit.title === noteTitle
-  );
-  return (//console.log(filtered);
-filtered )
+//   const filtered = allNotes.filter(
+//     (toEdit) => toEdit.content === noteContent && toEdit.title === noteTitle  );
+  allNotes.push(editedNote);
+  localStorage.setItem("notes", JSON.stringify(allNotes));
 }
