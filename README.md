@@ -20,4 +20,4 @@ The Notes App utilizes various states to manage and display data dynamically.
 ### Styling
 - TailwindCSS: The application is styled using TailwindCSS, providing a modern and responsive design.
 ### Deployment
-- Static Site: The application is deployed as a static site on Render:
+- Static Site: The application is deployed as a static site on Render:https://project-7-notes-app.onrender.com
