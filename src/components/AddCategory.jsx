@@ -1,4 +1,4 @@
-import { useAppContext } from "../context/AppContext";
+import { useAppContext } from "../context/appContext.js";
 import { storeCategories } from "../modules/storage";
 import ShowCategories from "./ShowCategories";
 const AddCategory = () => {
