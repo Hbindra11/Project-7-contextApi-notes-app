@@ -1,4 +1,4 @@
-import { useAppContext } from "../context/AppContext";
+import { useAppContext } from "../context/AppContext.js";
 import { storeNotes } from "../modules/storage";
 import { useNavigate } from "react-router-dom";
 import SelectCategories from "./SelectCategories";
