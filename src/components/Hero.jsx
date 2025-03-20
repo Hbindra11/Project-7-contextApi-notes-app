@@ -3,10 +3,10 @@ const Hero = () => {
     <>
       <div
         className="hero min-h-screen"
-        style={{
-          backgroundImage:
-             "url(./assets/memos-1975179_1280.png)",
-         }}
+         style={{
+           backgroundImage:
+             "url(https://img.daisyui.com/images/stock/photo-1565098772267-60af42b81ef2.webp)",
+          }}
       >
         <div className="hero-overlay bg-opacity-60"></div>
         <div className="hero-content text-neutral-content text-center">
