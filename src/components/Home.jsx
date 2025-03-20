@@ -4,7 +4,7 @@ import {
   editStoredNote,
 } from "../modules/storage";
 import { useNavigate } from "react-router-dom";
-import { useAppContext } from "../context/AppContext";
+import { useAppContext } from "../context/appContext.js";
 import Hero from "./Hero";
 
 const Home = () => {
