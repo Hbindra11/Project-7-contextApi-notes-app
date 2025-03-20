@@ -10,7 +10,6 @@ import Home from "./components/Home";
 import AddNote from "./components/AddNote";
 import AddCategory from "./components/AddCategory";
 import AppContextProvider from "./context/AppContextProvider";
-//import About from './components/About';
 
 // Our App component now simply returns the Router we created
 const App = () => {
@@ -27,7 +26,7 @@ route
       <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
         <Route path="addnote" element={<AddNote />} />
-        <Route path="categories" element={<AddCategory />} /> 
+        <Route path="categories" element={<AddCategory />} />
       </Route>
     )
   );
