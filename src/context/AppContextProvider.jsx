@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { AppContext } from "./AppContext.js";
+import { AppContext } from "./appContext.js";
 
 function AppContextProvider({ children }) {
   const [note, setNote] = useState([]);
