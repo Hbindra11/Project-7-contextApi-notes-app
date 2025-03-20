@@ -18,6 +18,6 @@ The "+Category2 Menu option enables users to create and delete categories or tag
 The Notes App utilizes various states to manage and display data dynamically. 
 
 ### Styling
-- TailwindCSS: The application is styled using TailwindCSS, providing a modern and responsive design.
+TailwindCSS: The application is styled using TailwindCSS, providing a modern and responsive design.
 ### Deployment
-- Static Site: The application is deployed as a static site on Render:https://project-7-notes-app.onrender.com
+Static Site: The application is deployed as a static site on Render:https://project-7-notes-app.onrender.com
