@@ -2,18 +2,25 @@ import { useAppContext } from "../context/appContext.js";
 import { storeNotes } from "../modules/storage";
 import { useNavigate } from "react-router-dom";
 import SelectCategories from "./SelectCategories";
+import { useState } from "react";
 
 const AddNote = () => {
   const { note, setNote } = useAppContext();
   const navigate = useNavigate();
+  // Local state to track selected categories
+  const [selectedCategories, setSelectedCategories] = useState([]);
 
   const handelChange = (e) => {
-    setNote((prev) => ({ ...prev, [e.target.name]: e.target.value,"categories": []}));
+    setNote((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const handelSubmit = (e) => {
     e.preventDefault();
-    storeNotes(note);
+    // Add selected categories to the note before saving
+    storeNotes({
+      ...note,
+      categories: selectedCategories.length ? selectedCategories : [],
+    });
     setNote([]);
     navigate("/");
   };
@@ -53,7 +60,8 @@ const AddNote = () => {
             </button>
           </form>
         </div>
-        <SelectCategories />
+        {/* Pass selectedCategories and setter to SelectCategories */}
+        <SelectCategories selected={selectedCategories} setSelected={setSelectedCategories} />
       </div>
     </>
   );
