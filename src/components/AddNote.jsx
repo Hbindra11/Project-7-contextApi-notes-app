@@ -8,7 +8,7 @@ const AddNote = () => {
   const navigate = useNavigate();
 
   const handelChange = (e) => {
-    setNote((prev) => ({ ...prev, [e.target.name]: e.target.value,"categories": []}));
+    setNote((prev) => ({ ...prev, [e.target.name]: e.target.value,"categories": ['Miscellaneous'] }));
   };
 
   const handelSubmit = (e) => {

@@ -13,6 +13,7 @@ const ShowCategories = () => {
 
         <div className=" card  bg-slate-50 p-5">
           <ul>
+            <li> Miscellaneous</li>
             {AllCategories.map((aCategory) => (
               <li key={crypto.randomUUID()} className="flex justify-between">
                 <span>{aCategory.category}</span>
