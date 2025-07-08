@@ -14,14 +14,11 @@ const Home = () => {
 
   function handelClick(editNoteTitle, editNoteContent) {
     setNote({ title: editNoteTitle, content: editNoteContent, categories: [] });
+    setEditNote({ title: editNoteTitle, content: editNoteContent, categories: [] }); // set editNote state as well
     document.getElementById("my_modal_5").showModal();
   }
 
   function handelChange(e) {
-    //need to use another state for handling the new values.
-    //old note may be first deleted in storage thur the deleteANote function
-    //the new state holding the new note data even if only the title or content was changed should be stored
-    //in localstorage
     setEditNote((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
@@ -96,18 +93,17 @@ const Home = () => {
           >
             <div className="card bg-base-100 w-96 m-10 p-10 ">
               <h3 className="font-bold text-lg">Edit Note</h3>
-
               <div className="card-body">
                 <h2></h2>
                 <form method="dialog" onSubmit={handleSubmit}>
-                  {/* if there is a button in form, it will close the modal */}
+                  {/* Show current values in the input fields using value attribute */}
                   <label className="form-control w-full max-w-xs">
                     <span className="label-text">Title: </span>
                     <input
                       type="text"
                       className="input input-bordered input-accent w-full max-w-xs "
-                      placeholder={note.title}
                       name="title"
+                      value={editNote.title || ""}
                       onChange={handelChange}
                       required
                     ></input>
@@ -116,10 +112,9 @@ const Home = () => {
                   <label className="form-control w-full max-w-xs">
                     <span className="label-text">Content </span>
                     <textarea
-                      type="text"
                       className="textarea textarea-accent"
-                      placeholder={note.content}
                       name="content"
+                      value={editNote.content || ""}
                       onChange={handelChange}
                       required
                     ></textarea>
