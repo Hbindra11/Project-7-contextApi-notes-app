@@ -6,15 +6,24 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../context/appContext.js";
 import Hero from "./Hero";
+import { fetchCategories } from "../modules/storage"; // Import to get all categories
 
 const Home = () => {
-  const allNotes = fetchAllStoredNotes();
+  // Sort notes by updatedAt or createdAt (descending), newest first
+  const allNotes = fetchAllStoredNotes().sort((a, b) => {
+    const dateA = new Date(a.updatedAt || a.createdAt || 0);
+    const dateB = new Date(b.updatedAt || b.createdAt || 0);
+    return dateB - dateA;
+  });
   const navigate = useNavigate();
   const { note, setNote, editNote, setEditNote } = useAppContext();
 
-  function handelClick(editNoteTitle, editNoteContent) {
-    setNote({ title: editNoteTitle, content: editNoteContent, categories: [] });
-    setEditNote({ title: editNoteTitle, content: editNoteContent, categories: [] }); // set editNote state as well
+  // Get all available categories
+  const allCategories = fetchCategories().map((cat) => cat.category);
+
+  function handelClick(editNoteTitle, editNoteContent, editNoteCategories) {
+    setNote({ title: editNoteTitle, content: editNoteContent, categories: editNoteCategories || [] });
+    setEditNote({ title: editNoteTitle, content: editNoteContent, categories: editNoteCategories || [] });
     document.getElementById("my_modal_5").showModal();
   }
 
@@ -22,13 +31,31 @@ const Home = () => {
     setEditNote((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
-      categories: [],
+      // categories handled separately
     }));
+  }
+
+  // Handle category checkbox change in edit modal
+  function handleCategoryCheckboxChange(category) {
+    setEditNote((prev) => {
+      const prevCategories = Array.isArray(prev.categories) ? prev.categories : [];
+      if (prevCategories.includes(category)) {
+        // Untick: remove category
+        return { ...prev, categories: prevCategories.filter((c) => c !== category) };
+      } else {
+        // Tick: add category
+        return { ...prev, categories: [...prevCategories, category] };
+      }
+    });
   }
 
   function handleSubmit() {
     deleteANote(note.title, note.content);
-    editStoredNote(editNote);
+    // Update the note with a new updatedAt timestamp
+    editStoredNote({
+      ...editNote,
+      updatedAt: new Date().toISOString(),
+    });
     navigate("/");
   }
 
@@ -91,7 +118,7 @@ const Home = () => {
                 <button
                   className="btn btn-primary"
                   onClick={() => {
-                    handelClick(aNote.title, aNote.content);
+                    handelClick(aNote.title, aNote.content, aNote.categories);
                   }}
                 >
                   Edit
@@ -133,6 +160,23 @@ const Home = () => {
                     ></textarea>
                   </label>
                   <br></br>
+                  {/* Categories as ticked/unticked list */}
+                  <div className="mb-4">
+                    <span className="label-text font-bold">Categories:</span>
+                    <ul className="mt-2">
+                      {allCategories.map((cat) => (
+                        <li key={cat} className="flex items-center mb-1">
+                          <input
+                            type="checkbox"
+                            checked={Array.isArray(editNote.categories) && editNote.categories.includes(cat)}
+                            onChange={() => handleCategoryCheckboxChange(cat)}
+                            className="mr-2"
+                          />
+                          <span>{cat}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                   <button type="submit" className="mr-24 btn btn-accent mt-5">
                     Save
                   </button>
