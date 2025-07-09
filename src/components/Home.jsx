@@ -9,12 +9,6 @@ import Hero from "./Hero";
 import { fetchCategories } from "../modules/storage"; // Import to get all categories
 
 const Home = () => {
-  // Sort notes by updatedAt or createdAt (descending), newest first
-  const allNotes = fetchAllStoredNotes().sort((a, b) => {
-    const dateA = new Date(a.updatedAt || a.createdAt || 0);
-    const dateB = new Date(b.updatedAt || b.createdAt || 0);
-    return dateB - dateA;
-  });
   const navigate = useNavigate();
   const { note, setNote, editNote, setEditNote } = useAppContext();
 
@@ -64,69 +58,7 @@ const Home = () => {
       {
         <div className="flex flex-wrap justify-center bg-stone-950 ">
           <Hero />
-
-          {allNotes.map((aNote) => (
-            <div
-              className="card bg-base-100 w-96 shadow-xl m-2 p-10 "
-              key={crypto.randomUUID()}
-            >
-              <div className="card-actions justify-end">
-                <button
-                  className="btn btn-square btn-sm"
-                  onClick={() => {
-                    deleteANote(aNote.title, aNote.content);
-                    navigate("/");
-                  }}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                </button>
-              </div>
-              <div>
-                <h2 className="card-title">{aNote.title}</h2>
-              </div>
-
-              <div className="card-body">
-                <p>{aNote.content}</p>
-                {/* Show categories as highlighted and circled list */}
-                {Array.isArray(aNote.categories) && aNote.categories.length > 0 && (
-                  <div className="flex flex-wrap gap-2 mt-4 justify-center">
-                    {aNote.categories.map((cat, idx) => (
-                      <span
-                        key={cat + idx}
-                        className="inline-block px-3 py-1 bg-blue-200 text-blue-800 rounded-full border border-blue-400 font-semibold text-xs"
-                      >
-                        {cat}
-                      </span>
-                    ))}
-                  </div>
-                )}
-              </div>
-              <div className="card-actions justify-end">
-                <button
-                  className="btn btn-primary"
-                  onClick={() => {
-                    handelClick(aNote.title, aNote.content, aNote.categories);
-                  }}
-                >
-                  Edit
-                </button>
-              </div>
-            </div>
-          ))}
-
+          {/* All notes/cards are removed, only Hero is shown */}
           <dialog
             id="my_modal_5"
             className="modal modal-bottom sm:modal-middle"

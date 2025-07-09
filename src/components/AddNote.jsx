@@ -1,13 +1,12 @@
-import { useAppContext } from "../context/appContext.js";
-import { storeNotes } from "../modules/storage";
-import { useNavigate } from "react-router-dom";
-import SelectCategories from "./SelectCategories";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { storeNotes } from "../modules/storage";
+import { useAppContext } from "../context/appContext.js";
+import SelectCategories from "./SelectCategories";
 
 const AddNote = () => {
   const { note, setNote } = useAppContext();
   const navigate = useNavigate();
-  // Local state to track selected categories
   const [selectedCategories, setSelectedCategories] = useState([]);
 
   const handelChange = (e) => {
@@ -21,9 +20,11 @@ const AddNote = () => {
       ...note,
       categories: selectedCategories.length ? selectedCategories : [],
       createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
     });
     setNote([]);
-    navigate("/");
+    // After saving, ensure latest note is first by navigating to all-notes (which sorts descending)
+    navigate("/all-notes");
   };
 
   return (
