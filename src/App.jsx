@@ -10,6 +10,7 @@ import Home from "./components/Home";
 import AddNote from "./components/AddNote";
 import AddCategory from "./components/AddCategory";
 import AppContextProvider from "./context/AppContextProvider";
+import AllNotesPage from "./components/AllNotesPage"; // <-- import the new page component
 
 // Our App component now simply returns the Router we created
 const App = () => {
@@ -27,6 +28,7 @@ route
         <Route index element={<Home />} />
         <Route path="addnote" element={<AddNote />} />
         <Route path="categories" element={<AddCategory />} />
+        <Route path="all-notes" element={<AllNotesPage />} /> {/* new route */}
       </Route>
     )
   );
