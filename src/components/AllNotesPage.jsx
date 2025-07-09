@@ -1,4 +1,4 @@
-import { fetchAllStoredNotes, deleteANote, editStoredNote } from "../modules/storage";
+import { fetchAllStoredNotes, deleteANote, editStoredNote, fetchCategories } from "../modules/storage";
 import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../context/appContext.js";
 import { useState } from "react";
@@ -25,6 +25,9 @@ const AllNotesPage = () => {
         return acc;
       }, [])
     : [];
+
+  // Always fetch the latest categories for the edit modal
+  const getAllCategories = () => fetchCategories().map((cat) => cat.category);
 
   function handelClick(editNoteTitle, editNoteContent, editNoteCategories, editNoteCreatedAt, editNoteUpdatedAt) {
     setNote({
@@ -146,7 +149,9 @@ const AllNotesPage = () => {
               <h2 className="card-title">{note.title}</h2>
             </div>
             <div className="card-body">
-              <p>{note.content}</p>
+              <p className="break-words max-h-32 overflow-y-auto">
+                {note.content}
+              </p>
               {/* Show categories as highlighted and circled list */}
               {Array.isArray(note.categories) && note.categories.length > 0 && (
                 <ul className="flex flex-wrap gap-2 mt-4 justify-center list-none p-0">
@@ -214,7 +219,7 @@ const AllNotesPage = () => {
                 <div className="mb-4">
                   <span className="label-text font-bold">Categories:</span>
                   <ul className="mt-2">
-                    {allCategories.map((cat) => (
+                    {getAllCategories().map((cat) => (
                       <li key={cat} className="flex items-center mb-1">
                         <input
                           type="checkbox"
