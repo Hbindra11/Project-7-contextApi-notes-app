@@ -11,6 +11,7 @@ const AddCategory = () => {
   const handelSubmit = () => {
     //e.preventDefault();
     storeCategories(categories);
+    window.location.reload(); // Refresh page to show new category in checklist
   };
   return (
     <>
