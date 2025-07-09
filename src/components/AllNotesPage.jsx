@@ -26,9 +26,21 @@ const AllNotesPage = () => {
       }, [])
     : [];
 
-  function handelClick(editNoteTitle, editNoteContent, editNoteCategories) {
-    setNote({ title: editNoteTitle, content: editNoteContent, categories: editNoteCategories || [] });
-    setEditNote({ title: editNoteTitle, content: editNoteContent, categories: editNoteCategories || [] });
+  function handelClick(editNoteTitle, editNoteContent, editNoteCategories, editNoteCreatedAt, editNoteUpdatedAt) {
+    setNote({
+      title: editNoteTitle,
+      content: editNoteContent,
+      categories: editNoteCategories || [],
+      createdAt: editNoteCreatedAt,
+      updatedAt: editNoteUpdatedAt,
+    });
+    setEditNote({
+      title: editNoteTitle,
+      content: editNoteContent,
+      categories: editNoteCategories || [],
+      createdAt: editNoteCreatedAt,
+      updatedAt: editNoteUpdatedAt,
+    });
     setShowModal(true);
   }
 
@@ -53,10 +65,21 @@ const AllNotesPage = () => {
   function handleSubmit(e) {
     e.preventDefault();
     deleteANote(note.title, note.content);
+    // Always update the updatedAt timestamp on edit, retain createdAt if present
+    const prevCreatedAt =
+      editNote.createdAt ||
+      note.createdAt ||
+      new Date().toISOString();
+
+    // If the note is being edited (title/content changed), updatedAt should be different from createdAt
+    const updatedAt = new Date().toISOString();
+
     editStoredNote({
       ...editNote,
-      updatedAt: new Date().toISOString(),
+      createdAt: prevCreatedAt,
+      updatedAt: updatedAt,
     });
+
     // Fetch and sort notes in descending order after edit
     setNotes(
       fetchAllStoredNotes().sort((a, b) => {
@@ -91,13 +114,13 @@ const AllNotesPage = () => {
             key={note.title + idx}
             className="card bg-base-100 w-72 shadow-xl m-2 p-4"
           >
-            {/* Created date/time and delete button on the same row */}
+            {/* Show updated or created date/time and delete button on the same row */}
             <div className="flex items-center justify-between mb-2">
               <div className="text-xs text-gray-500">
-                Created:{" "}
-                {note.createdAt
-                  ? new Date(note.createdAt).toLocaleString()
-                  : "N/A"}
+                {/* Show 'Updated:' if updatedAt exists and is different from createdAt, otherwise 'Created:' */}
+                {note.updatedAt && note.createdAt && note.updatedAt !== note.createdAt
+                  ? "Updated: " + new Date(note.updatedAt).toLocaleString()
+                  : "Created: " + (note.createdAt ? new Date(note.createdAt).toLocaleString() : "N/A")}
               </div>
               <button
                 className="btn btn-square btn-sm"
@@ -142,7 +165,13 @@ const AllNotesPage = () => {
               <button
                 className="btn btn-primary"
                 onClick={() => {
-                  handelClick(note.title, note.content, note.categories);
+                  handelClick(
+                    note.title,
+                    note.content,
+                    note.categories,
+                    note.createdAt,
+                    note.updatedAt
+                  );
                 }}
               >
                 Edit
@@ -218,3 +247,4 @@ const AllNotesPage = () => {
 };
 
 export default AllNotesPage;
+
