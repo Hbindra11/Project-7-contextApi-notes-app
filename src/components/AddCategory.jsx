@@ -9,12 +9,12 @@ const AddCategory = () => {
     setCategories(() => ({ [e.target.name]: e.target.value }));
     //console.log(e.target.value);
   };
-  const handelSubmit = () => {
-    //e.preventDefault();
+  const handelSubmit = (e) => {
+    e.preventDefault();
     storeCategories(categories);
     setCategories([]); // Clear the categories state after saving
     navigate("/categories");
-    window.location.reload(); // Refresh page to show new category in checklist
+   // window.location.reload(); // Refresh page to show new category in checklist
   };
   return (
     <>
