@@ -16,10 +16,11 @@ const AddNote = () => {
 
   const handelSubmit = (e) => {
     e.preventDefault();
-    // Add selected categories to the note before saving
+    // Add selected categories and timestamp to the note before saving
     storeNotes({
       ...note,
       categories: selectedCategories.length ? selectedCategories : [],
+      createdAt: new Date().toISOString(),
     });
     setNote([]);
     navigate("/");

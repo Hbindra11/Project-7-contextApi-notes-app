@@ -6,32 +6,56 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../context/appContext.js";
 import Hero from "./Hero";
+import { fetchCategories } from "../modules/storage"; // Import to get all categories
 
 const Home = () => {
-  const allNotes = fetchAllStoredNotes();
+  // Sort notes by updatedAt or createdAt (descending), newest first
+  const allNotes = fetchAllStoredNotes().sort((a, b) => {
+    const dateA = new Date(a.updatedAt || a.createdAt || 0);
+    const dateB = new Date(b.updatedAt || b.createdAt || 0);
+    return dateB - dateA;
+  });
   const navigate = useNavigate();
   const { note, setNote, editNote, setEditNote } = useAppContext();
 
-  function handelClick(editNoteTitle, editNoteContent) {
-    setNote({ title: editNoteTitle, content: editNoteContent, categories: [] });
+  // Get all available categories
+  const allCategories = fetchCategories().map((cat) => cat.category);
+
+  function handelClick(editNoteTitle, editNoteContent, editNoteCategories) {
+    setNote({ title: editNoteTitle, content: editNoteContent, categories: editNoteCategories || [] });
+    setEditNote({ title: editNoteTitle, content: editNoteContent, categories: editNoteCategories || [] });
     document.getElementById("my_modal_5").showModal();
   }
 
   function handelChange(e) {
-    //need to use another state for handling the new values.
-    //old note may be first deleted in storage thur the deleteANote function
-    //the new state holding the new note data even if only the title or content was changed should be stored
-    //in localstorage
     setEditNote((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
-      categories: [],
+      // categories handled separately
     }));
+  }
+
+  // Handle category checkbox change in edit modal
+  function handleCategoryCheckboxChange(category) {
+    setEditNote((prev) => {
+      const prevCategories = Array.isArray(prev.categories) ? prev.categories : [];
+      if (prevCategories.includes(category)) {
+        // Untick: remove category
+        return { ...prev, categories: prevCategories.filter((c) => c !== category) };
+      } else {
+        // Tick: add category
+        return { ...prev, categories: [...prevCategories, category] };
+      }
+    });
   }
 
   function handleSubmit() {
     deleteANote(note.title, note.content);
-    editStoredNote(editNote);
+    // Update the note with a new updatedAt timestamp
+    editStoredNote({
+      ...editNote,
+      updatedAt: new Date().toISOString(),
+    });
     navigate("/");
   }
 
@@ -76,12 +100,25 @@ const Home = () => {
 
               <div className="card-body">
                 <p>{aNote.content}</p>
+                {/* Show categories as highlighted and circled list */}
+                {Array.isArray(aNote.categories) && aNote.categories.length > 0 && (
+                  <div className="flex flex-wrap gap-2 mt-4 justify-center">
+                    {aNote.categories.map((cat, idx) => (
+                      <span
+                        key={cat + idx}
+                        className="inline-block px-3 py-1 bg-blue-200 text-blue-800 rounded-full border border-blue-400 font-semibold text-xs"
+                      >
+                        {cat}
+                      </span>
+                    ))}
+                  </div>
+                )}
               </div>
               <div className="card-actions justify-end">
                 <button
                   className="btn btn-primary"
                   onClick={() => {
-                    handelClick(aNote.title, aNote.content);
+                    handelClick(aNote.title, aNote.content, aNote.categories);
                   }}
                 >
                   Edit
@@ -96,18 +133,17 @@ const Home = () => {
           >
             <div className="card bg-base-100 w-96 m-10 p-10 ">
               <h3 className="font-bold text-lg">Edit Note</h3>
-
               <div className="card-body">
                 <h2></h2>
                 <form method="dialog" onSubmit={handleSubmit}>
-                  {/* if there is a button in form, it will close the modal */}
+                  {/* Show current values in the input fields using value attribute */}
                   <label className="form-control w-full max-w-xs">
                     <span className="label-text">Title: </span>
                     <input
                       type="text"
                       className="input input-bordered input-accent w-full max-w-xs "
-                      placeholder={note.title}
                       name="title"
+                      value={editNote.title || ""}
                       onChange={handelChange}
                       required
                     ></input>
@@ -116,15 +152,31 @@ const Home = () => {
                   <label className="form-control w-full max-w-xs">
                     <span className="label-text">Content </span>
                     <textarea
-                      type="text"
                       className="textarea textarea-accent"
-                      placeholder={note.content}
                       name="content"
+                      value={editNote.content || ""}
                       onChange={handelChange}
                       required
                     ></textarea>
                   </label>
                   <br></br>
+                  {/* Categories as ticked/unticked list */}
+                  <div className="mb-4">
+                    <span className="label-text font-bold">Categories:</span>
+                    <ul className="mt-2">
+                      {allCategories.map((cat) => (
+                        <li key={cat} className="flex items-center mb-1">
+                          <input
+                            type="checkbox"
+                            checked={Array.isArray(editNote.categories) && editNote.categories.includes(cat)}
+                            onChange={() => handleCategoryCheckboxChange(cat)}
+                            className="mr-2"
+                          />
+                          <span>{cat}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                   <button type="submit" className="mr-24 btn btn-accent mt-5">
                     Save
                   </button>
