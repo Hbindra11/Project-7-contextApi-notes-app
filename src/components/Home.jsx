@@ -73,6 +73,19 @@ const Home = () => {
 
               <div className="card-body">
                 <p>{aNote.content}</p>
+                {/* Show categories as highlighted and circled list */}
+                {Array.isArray(aNote.categories) && aNote.categories.length > 0 && (
+                  <div className="flex flex-wrap gap-2 mt-4 justify-center">
+                    {aNote.categories.map((cat, idx) => (
+                      <span
+                        key={cat + idx}
+                        className="inline-block px-3 py-1 bg-blue-200 text-blue-800 rounded-full border border-blue-400 font-semibold text-xs"
+                      >
+                        {cat}
+                      </span>
+                    ))}
+                  </div>
+                )}
               </div>
               <div className="card-actions justify-end">
                 <button
