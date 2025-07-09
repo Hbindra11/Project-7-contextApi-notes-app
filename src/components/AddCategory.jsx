@@ -5,7 +5,7 @@ const AddCategory = () => {
   const { categories, setCategories } = useAppContext();
 
   const handelChange = (e) => {
-    setCategories(() => ({[e.target.name]:e.target.value,"isChecked":false}));
+    setCategories(() => ({ [e.target.name]: e.target.value }));
     //console.log(e.target.value);
   };
   const handelSubmit = () => {

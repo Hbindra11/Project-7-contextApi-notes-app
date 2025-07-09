@@ -91,7 +91,14 @@ const AllNotesPage = () => {
             key={note.title + idx}
             className="card bg-base-100 w-72 shadow-xl m-2 p-4"
           >
-            <div className="card-actions justify-end">
+            {/* Created date/time and delete button on the same row */}
+            <div className="flex items-center justify-between mb-2">
+              <div className="text-xs text-gray-500">
+                Created:{" "}
+                {note.createdAt
+                  ? new Date(note.createdAt).toLocaleString()
+                  : "N/A"}
+              </div>
               <button
                 className="btn btn-square btn-sm"
                 onClick={() => handleDelete(note.title, note.content)}
@@ -117,17 +124,18 @@ const AllNotesPage = () => {
             </div>
             <div className="card-body">
               <p>{note.content}</p>
+              {/* Show categories as highlighted and circled list */}
               {Array.isArray(note.categories) && note.categories.length > 0 && (
-                <div className="flex flex-wrap gap-2 mt-4 justify-center">
+                <ul className="flex flex-wrap gap-2 mt-4 justify-center list-none p-0">
                   {note.categories.map((cat, cidx) => (
-                    <span
+                    <li
                       key={cat + cidx}
                       className="inline-block px-3 py-1 bg-blue-200 text-blue-800 rounded-full border border-blue-400 font-semibold text-xs"
                     >
                       {cat}
-                    </span>
+                    </li>
                   ))}
-                </div>
+                </ul>
               )}
             </div>
             <div className="card-actions justify-end">
