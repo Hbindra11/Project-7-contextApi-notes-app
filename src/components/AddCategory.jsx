@@ -1,9 +1,10 @@
 import { useAppContext } from "../context/appContext.js";
 import { storeCategories } from "../modules/storage";
 import ShowCategories from "./ShowCategories";
+import { useNavigate } from "react-router-dom";
 const AddCategory = () => {
   const { categories, setCategories } = useAppContext();
-
+ const navigate = useNavigate();
   const handelChange = (e) => {
     setCategories(() => ({ [e.target.name]: e.target.value }));
     //console.log(e.target.value);
@@ -11,7 +12,9 @@ const AddCategory = () => {
   const handelSubmit = () => {
     //e.preventDefault();
     storeCategories(categories);
-    window.location.reload(); // Refresh page to show new category in checklist
+    setCategories([]); // Clear the categories state after saving
+    navigate("/categories");
+    //window.location.reload(); // Refresh page to show new category in checklist
   };
   return (
     <>
