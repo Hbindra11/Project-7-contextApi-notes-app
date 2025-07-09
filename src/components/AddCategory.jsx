@@ -14,7 +14,7 @@ const AddCategory = () => {
     storeCategories(categories);
     setCategories([]); // Clear the categories state after saving
     navigate("/categories");
-    //window.location.reload(); // Refresh page to show new category in checklist
+    window.location.reload(); // Refresh page to show new category in checklist
   };
   return (
     <>
